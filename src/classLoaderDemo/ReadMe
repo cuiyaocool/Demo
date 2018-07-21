@@ -1,0 +1,64 @@
+JVM 基本结构：
+
+     类加载器、执行引擎、运行时 数据区、本地接口
+
+     classFiles-->classLoder-->运行时数据区-->执行引擎，本地库接口-->本地方法库
+
+类的转载
+
+     加载-->链接（验证、准备、解析）-->初始化-->使用-->卸载
+
+     加载：取得二进制字节流，通过全名，把字节流中的静态存储结构转化成数据区，放在方法区中。
+
+     加载之后会产生一个类对象，保存一个类的结构或者定义，放在堆中。
+
+     初始化：执行类的构造器，为类中的静态变量赋予正确的初始值。
+
+     public class Demo {
+
+         public static int tmp = 1; 
+
+          static {
+               tmp = 2;
+          }
+
+          public static void main() {
+          
+              tmp = 3; 
+     
+          }
+     }
+
+     构造器包含： static变量 、 static块
+
+     执行顺序由源码编写顺序。
+
+     构造器是构造我们的class对象， 构造方法是实例化对象
+
+     class对象在反射中应用到了。
+
+ 类加载器的双亲委派模型：
+     
+     一个类加载的时候必须先经过父类加载器去加载，除了初始化bootLoder加载器（无父加载器）。如果父加载器无法加载，再由发起加载的类加载器加载，如果还不能加载，就会报classNotFound异常。
+
+     使用该模型原因：     避免重复加载，当父类加载了某个类，就无需子加载器去加载。
+
+JDK已经有的加载器：
+
+     BootStrap classLoader加载器，启动JVM的加载器,c++写的， 加载rt.jar等resource.jar
+
+     Extension ClassLoader,加载%JAVA_HOME%/lib/ext/*.jar
+
+     AppclassLoader,加载classpath下的类
+
+     后两中是java编写，继承自ClassLoader
+
+     自定义加载器，也应该继承自ClassLoder，自定义加载路径。
+
+     自定义加载器设置父加载器是bootstrap, 就是把父加载器设置为null。
+
+     应用类加载器的父加载器是扩展类加载器，扩展类加载器的父加载器是null.
+
+     首先查找是否已经加载某个类，如果未加载，判断parent是否为null.不为null，则由父加载器加载，否则启动bootstrap加载该类，最后如果依旧没有加载到，则由自定义加载器加载，复写findClass方法。
+
+     
