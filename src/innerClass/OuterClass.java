@@ -13,7 +13,7 @@ public class OuterClass {
 	 * 在成员内部类中要注意两点，
 	 * 第一：成员内部类中不能存在任何static的变量和方法；
 	 * 第二：成员内部类是依附于外围类的，所以只有先创建了外围类才能够创建内部类。
-	 * @author cys
+	 * @author cy
 	 *
 	 */
 	public class InnerClass{
